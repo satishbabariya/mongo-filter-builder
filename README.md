@@ -1,16 +1,4 @@
-# 🌱 greenleaf - simple, type safe and easy to use query builder for MongoDB
-
-![build-img](https://github.com/slavabobik/greenleaf/actions/workflows/build.yml/badge.svg)
-[![godoc](https://godoc.org/github.com/slavabobik/greenleaf?status.png)](https://godoc.org/github.com/slavabobik/greenleaf)
-    
-
-## Installation
-To install use:
-
-```bash
- go get github.com/slavabobik/greenleaf
-```   
-
+# mongo-filter-builder 
 
 ## Quick examples
 
@@ -21,7 +9,7 @@ package main
 import (
 	"context"
 
-	"github.com/slavabobik/greenleaf"
+	"github.com/satishbabariya/mongo-filter-builder"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -42,15 +30,6 @@ func main() {
 		LteInt("score", 200).
 		Exists("active", true).
 		Build()
-
-	// update selector.
-	update := greenleaf.
-		Update().
-		SetBool("is_active", true).
-		SetIntSlice("numbers", []int{1, 2, 3, 4}).
-		Build()
-
-	collection.FindOneAndUpdate(ctx, filter, update)
 }
 
 ```

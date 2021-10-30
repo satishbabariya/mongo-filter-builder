@@ -1,21 +1,21 @@
-package greenleaf
+package mongofilterbuilder
 
 // FilterBuilder represents builder for a find operations.
 type FilterBuilder struct {
-	selector Document
+	selector map[string]map[string]interface{}
 }
 
 // Filter returs a new instance of a FilterBuilder.
 func Filter() *FilterBuilder {
 	return &FilterBuilder{
-		selector: make(Document),
+		selector: make(map[string]map[string]interface{}),
 	}
 }
 
 func (f *FilterBuilder) addSelector(field string, operator string, value interface{}) *FilterBuilder {
 	v, ok := f.selector[field]
 	if !ok {
-		f.selector[field] = M{operator: value}
+		f.selector[field] = map[string]interface{}{operator: value}
 		return f
 	}
 
@@ -24,7 +24,7 @@ func (f *FilterBuilder) addSelector(field string, operator string, value interfa
 }
 
 // Build returns document for using in mongodb find operations.
-func (f *FilterBuilder) Build() Document {
+func (f *FilterBuilder) Build() map[string]map[string]interface{} {
 	return f.selector
 }
 
@@ -35,20 +35,20 @@ func (f *FilterBuilder) Exists(field string, value bool) *FilterBuilder {
 
 // UpdateBuilder represents builder for an update queries.
 type UpdateBuilder struct {
-	operations Document
+	operations map[string]map[string]interface{}
 }
 
 // Update returs a new instance of a UpdateBuilder.
 func Update() *UpdateBuilder {
 	return &UpdateBuilder{
-		operations: make(Document),
+		operations: make(map[string]map[string]interface{}),
 	}
 }
 
 func (u *UpdateBuilder) addOperator(operator, field string, value interface{}) *UpdateBuilder {
 	op, ok := u.operations[operator]
 	if !ok {
-		u.operations[operator] = M{field: value}
+		u.operations[operator] = map[string]interface{}{field: value}
 		return u
 	}
 	op[field] = value
@@ -61,6 +61,6 @@ func (u *UpdateBuilder) Unset(field string) *UpdateBuilder {
 }
 
 // Build returns document for using in mongodb update operations.
-func (u *UpdateBuilder) Build() Document {
+func (u *UpdateBuilder) Build() map[string]map[string]interface{} {
 	return u.operations
 }

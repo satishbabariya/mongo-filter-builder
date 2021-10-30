@@ -1,3 +1,3 @@
-module github.com/slavabobik/greenleaf
+module github.com/satishbabariya/mongo-filter-builder
 
-go 1.15
+go 1.17
